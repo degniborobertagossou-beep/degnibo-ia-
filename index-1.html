@@ -2238,6 +2238,38 @@ console.log('✅ Vérification contact chargée — ' + BASE_ARNAQUEURS.length +
 })();
 </script>
 
+<!-- ══ FIX APP_URL — Nouveau lien onrender.com ══ -->
+<script>
+(function fixAppUrl(){
+  // Override immédiat
+  window.APP_URL = 'https://degnibo-ia.onrender.com';
+  window.APP_MSG = '🛡️ Dègnibo IA — Application anti-arnaque avec IA, créée au Bénin ! Gratuit pour tous 🇧🇯🌍\n👉 https://degnibo-ia.onrender.com';
+
+  // Aussi corriger après chargement DOM
+  document.addEventListener('DOMContentLoaded', function(){
+    window.APP_URL = 'https://degnibo-ia.onrender.com';
+    window.APP_MSG = '🛡️ Dègnibo IA — Application anti-arnaque avec IA, créée au Bénin ! Gratuit pour tous 🇧🇯🌍\n👉 https://degnibo-ia.onrender.com';
+
+    // Corriger tous les éléments HTML avec l'ancien lien
+    document.querySelectorAll('[onclick*="tiiny.site"],[href*="tiiny.site"]').forEach(function(el){
+      if(el.getAttribute('onclick'))
+        el.setAttribute('onclick', el.getAttribute('onclick').replace(/degnibo-ia\.tiiny\.site/g,'degnibo-ia.onrender.com'));
+      if(el.href)
+        el.href = el.href.replace(/degnibo-ia\.tiiny\.site/g,'degnibo-ia.onrender.com');
+    });
+
+    // Corriger le texte affiché du lien dans À propos
+    document.querySelectorAll('*').forEach(function(el){
+      if(el.children.length === 0 && el.textContent.includes('degnibo-ia.tiiny.site')){
+        el.textContent = el.textContent.replace(/degnibo-ia\.tiiny\.site/g,'degnibo-ia.onrender.com');
+      }
+    });
+
+    console.log('✅ APP_URL → degnibo-ia.onrender.com');
+  });
+})();
+</script>
+
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getFirestore, collection, addDoc, getDocs, onSnapshot, orderBy, query, serverTimestamp, limit } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
